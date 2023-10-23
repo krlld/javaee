@@ -9,6 +9,6 @@ public class HttpUtils {
         String[] params = queryParam.split("&");
         return Arrays.stream(params)
                 .map(param -> param.split("="))
-                .collect(Collectors.toMap(arr -> arr[0], arr -> arr[1]));
+                .collect(Collectors.toMap(arr -> arr[0], arr -> arr[1], (a, b) -> b));
     }
 }
