@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @WebServlet("/book")
-@MultipartConfig
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 10)
 public class BookServlet extends HttpServlet {
 
     @Override
@@ -39,8 +39,10 @@ public class BookServlet extends HttpServlet {
         resp.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
         try (FileInputStream fileInputStream = new FileInputStream(file);
              ServletOutputStream servletOutputStream = resp.getOutputStream()) {
-            byte[] fileBytes = fileInputStream.readAllBytes();
-            servletOutputStream.write(fileBytes);
+            byte[] buffer = new byte[1024];
+            while (fileInputStream.read(buffer) != -1) {
+                servletOutputStream.write(buffer);
+            }
         }
     }
 }
