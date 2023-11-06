@@ -20,12 +20,12 @@ public class FormHandlerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
-        if (ValidateService.isValidName(name)) {
+        if (!ValidateService.isValidName(name)) {
             req.setAttribute("message", "Enter correct name");
             req.getServletContext().getRequestDispatcher("/WEB-INF/lesson26/save-request.jsp").forward(req, resp);
         }
         String description = req.getParameter("description");
-        if (ValidateService.isValidDescription(description)) {
+        if (!ValidateService.isValidDescription(description)) {
             req.setAttribute("message", "Enter correct description");
             req.getServletContext().getRequestDispatcher("/WEB-INF/lesson26/save-request.jsp").forward(req, resp);
         }
