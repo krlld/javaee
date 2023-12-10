@@ -2,6 +2,7 @@ package by.teachmeskills.lesson34and35.dao;
 
 import by.teachmeskills.lesson34and35.db.Connector;
 import by.teachmeskills.lesson34and35.domain.UrlPair;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Optional;
 
+@Slf4j
 public class UrlPairDao {
 
     private final Connection connection = Connector.getConnection();
@@ -17,7 +19,9 @@ public class UrlPairDao {
     public UrlPairDao() {
         try {
             createUrlTable();
+            log.info("Url pair table existing");
         } catch (SQLException e) {
+            log.error("Something wrong with creating of url pair table");
             throw new RuntimeException(e);
         }
     }
@@ -37,7 +41,9 @@ public class UrlPairDao {
             preparedStatement.setString(1, urlPair.url());
             preparedStatement.setString(2, urlPair.alias());
             preparedStatement.execute();
+            log.info("Save url pair " + urlPair);
         } catch (SQLException e) {
+            log.error("Something wrong with saving of url pair");
             throw new RuntimeException(e);
         }
     }
@@ -53,6 +59,7 @@ public class UrlPairDao {
             String url = resultSet.getString("url");
             return Optional.of(new UrlPair(url, alias));
         } catch (SQLException e) {
+            log.error("Something wrong with searching of url pair by alias");
             throw new RuntimeException(e);
         }
     }

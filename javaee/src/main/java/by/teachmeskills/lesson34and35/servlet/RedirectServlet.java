@@ -7,9 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+@Slf4j
 @WebServlet("/redirect")
 public class RedirectServlet extends HttpServlet {
 
@@ -23,8 +25,10 @@ public class RedirectServlet extends HttpServlet {
         try {
             UrlPair urlPair = urlPairService.findByAlias(alias);
             resp.sendRedirect(urlPair.url());
+            log.info("Redirect to " + urlPair.url());
         } catch (IllegalArgumentException e) {
             resp.getWriter().println(e.getMessage());
+            log.warn(e.getMessage());
         }
     }
 
@@ -37,8 +41,10 @@ public class RedirectServlet extends HttpServlet {
             urlPairService.save(urlPair);
         } catch (IllegalArgumentException e) {
             resp.getWriter().println(e.getMessage());
+            log.warn(e.getMessage());
         } catch (Exception e) {
             resp.getWriter().print("Something wrong");
+            log.warn(e.getMessage());
         }
     }
 }

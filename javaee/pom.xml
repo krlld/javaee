@@ -20,6 +20,7 @@
         <lombok.version>1.18.30</lombok.version>
         <mysql-connector-java.version>8.0.33</mysql-connector-java.version>
         <jackson-databind.version>2.15.3</jackson-databind.version>
+        <slf4j-simple.version>1.7.5</slf4j-simple.version>
     </properties>
 
     <dependencies>
@@ -43,7 +44,11 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j-simple.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
