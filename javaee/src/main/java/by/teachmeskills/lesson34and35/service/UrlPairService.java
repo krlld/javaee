@@ -2,14 +2,18 @@ package by.teachmeskills.lesson34and35.service;
 
 import by.teachmeskills.lesson34and35.dao.UrlPairDao;
 import by.teachmeskills.lesson34and35.domain.UrlPair;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Slf4j
+@Service
+@RequiredArgsConstructor
 public class UrlPairService {
 
-    private final UrlPairDao urlPairDao = new UrlPairDao();
+    private final UrlPairDao urlPairDao;
 
     public void save(UrlPair urlPair) {
         if (urlPair.url() == null || urlPair.url().isBlank()) {

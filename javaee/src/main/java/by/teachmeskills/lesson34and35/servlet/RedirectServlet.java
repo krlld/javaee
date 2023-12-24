@@ -1,13 +1,16 @@
 package by.teachmeskills.lesson34and35.servlet;
 
+import by.teachmeskills.lesson34and35.AppConfig;
 import by.teachmeskills.lesson34and35.domain.UrlPair;
 import by.teachmeskills.lesson34and35.service.UrlPairService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
 
@@ -15,9 +18,16 @@ import java.io.IOException;
 @WebServlet("/redirect")
 public class RedirectServlet extends HttpServlet {
 
-    private final UrlPairService urlPairService = new UrlPairService();
+    private UrlPairService urlPairService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        urlPairService = context.getBean(UrlPairService.class);
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

@@ -3,8 +3,9 @@ package by.teachmeskills.lesson34and35.dao;
 import by.teachmeskills.lesson34and35.db.Connector;
 import by.teachmeskills.lesson34and35.domain.UrlPair;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,11 +13,14 @@ import java.sql.Statement;
 import java.util.Optional;
 
 @Slf4j
+@Repository
 public class UrlPairDao {
 
-    private final Connection connection = Connector.getConnection();
+    private final Connector connector;
 
-    public UrlPairDao() {
+    @Autowired
+    public UrlPairDao(Connector connector) {
+        this.connector = connector;
         try {
             createUrlTable();
             log.info("Url pair table existing");
@@ -27,7 +31,7 @@ public class UrlPairDao {
     }
 
     public void createUrlTable() throws SQLException {
-        Statement statement = connection.createStatement();
+        Statement statement = connector.getConnection().createStatement();
         statement.execute("""
                 CREATE TABLE IF NOT EXISTS url_pair (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -37,7 +41,7 @@ public class UrlPairDao {
 
     public void save(UrlPair urlPair) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO url_pair (url, alias) VALUES (?,?)");
+            PreparedStatement preparedStatement = connector.getConnection().prepareStatement("INSERT INTO url_pair (url, alias) VALUES (?,?)");
             preparedStatement.setString(1, urlPair.url());
             preparedStatement.setString(2, urlPair.alias());
             preparedStatement.execute();
@@ -50,7 +54,7 @@ public class UrlPairDao {
 
     public Optional<UrlPair> findByAlias(String alias) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM url_pair WHERE alias = ?");
+            PreparedStatement preparedStatement = connector.getConnection().prepareStatement("SELECT * FROM url_pair WHERE alias = ?");
             preparedStatement.setString(1, alias);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
