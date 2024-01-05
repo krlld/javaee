@@ -21,7 +21,7 @@
         <mysql-connector-java.version>8.0.33</mysql-connector-java.version>
         <jackson-databind.version>2.15.3</jackson-databind.version>
         <slf4j-simple.version>1.7.5</slf4j-simple.version>
-        <spring-context.version>5.3.27</spring-context.version>
+        <spring.version>5.3.28</spring.version>
     </properties>
 
     <dependencies>
@@ -52,8 +52,8 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring-context.version}</version>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
         </dependency>
     </dependencies>
 
