@@ -2,8 +2,10 @@ package by.teachmeskills.lesson39.controller;
 
 import by.teachmeskills.lesson39.domain.Picture;
 import by.teachmeskills.lesson39.service.PictureService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/pictures")
 @RequiredArgsConstructor
@@ -33,12 +36,12 @@ public class PictureController {
     }
 
     @PostMapping
-    public ResponseEntity<Picture> save(@RequestBody Picture picture) {
+    public ResponseEntity<Picture> save(@Valid @RequestBody Picture picture) {
         return ResponseEntity.ok(pictureService.save(picture));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Picture> update(@PathVariable Long id, @RequestBody Picture picture) {
+    public ResponseEntity<Picture> update(@PathVariable Long id, @Valid @RequestBody Picture picture) {
         return ResponseEntity.ok(pictureService.update(id, picture));
     }
 
