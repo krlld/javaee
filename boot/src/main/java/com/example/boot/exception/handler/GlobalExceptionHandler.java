@@ -1,6 +1,6 @@
-package by.teachmeskills.lesson39.exception.handler;
+package com.example.boot.exception.handler;
 
-import by.teachmeskills.lesson39.exception.PictureNotFoundException;
+import com.example.boot.exception.PictureNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

@@ -12,6 +12,7 @@
     <modules>
         <module>javaee</module>
         <module>solid</module>
+        <module>boot</module>
     </modules>
 
 </project>

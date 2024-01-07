@@ -1,8 +1,8 @@
-package by.teachmeskills.lesson39.controller;
+package com.example.boot.controller;
 
-import by.teachmeskills.lesson39.domain.Picture;
-import by.teachmeskills.lesson39.service.PictureService;
-import javax.validation.Valid;
+import com.example.boot.domain.Picture;
+import com.example.boot.service.PictureService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
