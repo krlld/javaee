@@ -36,7 +36,7 @@ public class PictureController {
     }
 
     @PostMapping
-    public ResponseEntity<Picture> save(@Valid @RequestBody Picture picture) {
+    public ResponseEntity<Picture> save(@Valid Picture picture) {
         return ResponseEntity.ok(pictureService.save(picture));
     }
 
