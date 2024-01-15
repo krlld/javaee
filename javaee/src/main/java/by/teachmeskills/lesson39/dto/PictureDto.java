@@ -1,4 +1,4 @@
-package by.teachmeskills.lesson39.domain;
+package by.teachmeskills.lesson39.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Picture {
+public class PictureDto {
 
     private Long id;
 
@@ -30,11 +30,4 @@ public class Picture {
     @NotBlank
     @Size(max = 255)
     private String url;
-
-    public Picture(Picture picture) {
-        this.id = picture.id;
-        this.name = picture.name;
-        this.description = picture.description;
-        this.url = picture.url;
-    }
 }

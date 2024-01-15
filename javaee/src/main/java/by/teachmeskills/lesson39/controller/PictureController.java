@@ -1,6 +1,6 @@
 package by.teachmeskills.lesson39.controller;
 
-import by.teachmeskills.lesson39.domain.Picture;
+import by.teachmeskills.lesson39.dto.PictureDto;
 import by.teachmeskills.lesson39.service.PictureService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,23 +26,23 @@ public class PictureController {
     private final PictureService pictureService;
 
     @GetMapping
-    public ResponseEntity<List<Picture>> getAll() {
+    public ResponseEntity<List<PictureDto>> getAll() {
         return ResponseEntity.ok(pictureService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Picture> getById(@PathVariable Long id) {
+    public ResponseEntity<PictureDto> getById(@PathVariable Long id) {
         return ResponseEntity.ok(pictureService.getById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Picture> save(@Valid @RequestBody Picture picture) {
-        return ResponseEntity.ok(pictureService.save(picture));
+    public ResponseEntity<PictureDto> save(@Valid @RequestBody PictureDto pictureDto) {
+        return ResponseEntity.ok(pictureService.save(pictureDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Picture> update(@PathVariable Long id, @Valid @RequestBody Picture picture) {
-        return ResponseEntity.ok(pictureService.update(id, picture));
+    public ResponseEntity<PictureDto> update(@PathVariable Long id, @Valid @RequestBody PictureDto pictureDto) {
+        return ResponseEntity.ok(pictureService.update(id, pictureDto));
     }
 
     @DeleteMapping("/{id}")

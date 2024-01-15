@@ -1,18 +1,23 @@
 package by.teachmeskills.lesson39.service;
 
-import by.teachmeskills.lesson39.domain.Picture;
+import by.teachmeskills.lesson39.dto.PictureDto;
+import by.teachmeskills.lesson39.entity.Picture;
 
 import java.util.List;
 
 public interface PictureService {
 
-    List<Picture> getAll();
+    List<PictureDto> getAll();
 
-    Picture getById(Long id);
+    PictureDto getById(Long id);
 
-    Picture save(Picture picture);
+    PictureDto save(PictureDto pictureDto);
 
-    Picture update(Long id, Picture picture);
+    PictureDto update(Long id, PictureDto pictureDto);
 
     void delete(Long id);
+
+    PictureDto toPictureDto(Picture picture);
+
+    Picture toPicture(PictureDto pictureDto);
 }

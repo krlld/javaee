@@ -1,7 +1,7 @@
 package by.teachmeskills.lesson39.dao.impl;
 
 import by.teachmeskills.lesson39.dao.PictureDao;
-import by.teachmeskills.lesson39.domain.Picture;
+import by.teachmeskills.lesson39.entity.Picture;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
