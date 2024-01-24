@@ -1,42 +1,53 @@
 package by.teachmeskills.lesson39.service.impl;
 
 import by.teachmeskills.lesson39.dao.PictureDao;
-import by.teachmeskills.lesson39.domain.Picture;
+import by.teachmeskills.lesson39.dto.PictureDto;
+import by.teachmeskills.lesson39.entity.Picture;
 import by.teachmeskills.lesson39.exception.PictureNotFoundException;
 import by.teachmeskills.lesson39.service.PictureService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class PictureServiceImpl implements PictureService {
 
     private final PictureDao pictureDao;
 
-    @Override
-    public List<Picture> getAll() {
-        return pictureDao.getAll();
+    @Autowired
+    public PictureServiceImpl(@Qualifier("hibernatePictureDao") PictureDao pictureDao) {
+        this.pictureDao = pictureDao;
     }
 
     @Override
-    public Picture getById(Long id) {
-        return pictureDao.getById(id).orElseThrow(PictureNotFoundException::new);
+    public List<PictureDto> getAll() {
+        return pictureDao.getAll()
+                .stream()
+                .map(this::toPictureDto)
+                .toList();
     }
 
     @Override
-    public Picture save(Picture picture) {
-        return pictureDao.save(picture);
+    public PictureDto getById(Long id) {
+        return pictureDao.getById(id)
+                .map(this::toPictureDto)
+                .orElseThrow(PictureNotFoundException::new);
     }
 
     @Override
-    public Picture update(Long id, Picture picture) {
+    public PictureDto save(PictureDto pictureDto) {
+        return toPictureDto(pictureDao.save(toPicture(pictureDto)));
+    }
+
+    @Override
+    public PictureDto update(Long id, PictureDto pictureDto) {
         if (!pictureDao.existsById(id)) {
             throw new PictureNotFoundException();
         }
-        picture.setId(id);
-        return pictureDao.update(picture);
+        pictureDto.setId(id);
+        return toPictureDto(pictureDao.update(toPicture(pictureDto)));
     }
 
     @Override
@@ -45,5 +56,23 @@ public class PictureServiceImpl implements PictureService {
             throw new PictureNotFoundException();
         }
         pictureDao.delete(id);
+    }
+
+    @Override
+    public PictureDto toPictureDto(Picture picture) {
+        return new PictureDto()
+                .setId(picture.getId())
+                .setName(picture.getName())
+                .setDescription(picture.getDescription())
+                .setUrl(picture.getUrl());
+    }
+
+    @Override
+    public Picture toPicture(PictureDto pictureDto) {
+        return new Picture()
+                .setId(pictureDto.getId())
+                .setName(pictureDto.getName())
+                .setDescription(pictureDto.getDescription())
+                .setUrl(pictureDto.getUrl());
     }
 }

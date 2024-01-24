@@ -1,6 +1,6 @@
 package by.teachmeskills.lesson39.dao;
 
-import by.teachmeskills.lesson39.domain.Picture;
+import by.teachmeskills.lesson39.entity.Picture;
 
 import java.util.List;
 import java.util.Optional;
