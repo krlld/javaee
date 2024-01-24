@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pictures</title>
+</head>
+<body>
+<form th:action="@{/pictures}" method="post" th:object="${picture}">
+    <label>
+        <input name="name" th:value="*{name}" th:placeholder="Name"/>
+    </label>
+    <label>
+        <input name="description" th:value="*{description}" th:placeholder="Description"/>
+    </label>
+    <label>
+        <input name="url" th:value="*{url}" th:placeholder="Url"/>
+    </label>
+    <button type="submit">Save</button>
+</form>
+<h1>Picture list</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Url</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="picture : ${pictures}">
+        <td th:text="${picture.getName()}"></td>
+        <td th:text="${picture.getDescription()}"></td>
+        <td th:text="${picture.getUrl()}"></td>
+        <td>
+            <form th:action="@{/pictures/{id}(id=${picture.getId()})}" th:method="delete">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
