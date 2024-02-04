@@ -27,15 +27,12 @@ public class Picture {
     @Size(max = 255)
     private String description;
 
-    @NotNull
-    @NotBlank
-    @Size(max = 255)
-    private String url;
+    private byte[] pictureFile;
 
     public Picture(Picture picture) {
         this.id = picture.id;
         this.name = picture.name;
         this.description = picture.description;
-        this.url = picture.url;
+        this.pictureFile = picture.pictureFile;
     }
 }
