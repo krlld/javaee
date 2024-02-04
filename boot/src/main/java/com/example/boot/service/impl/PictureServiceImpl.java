@@ -1,8 +1,9 @@
 package com.example.boot.service.impl;
 
 import com.example.boot.dao.PictureDao;
-import com.example.boot.domain.Picture;
+import com.example.boot.dto.PictureDto;
 import com.example.boot.exception.PictureNotFoundException;
+import com.example.boot.mapper.PictureMapper;
 import com.example.boot.service.PictureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,28 +16,35 @@ public class PictureServiceImpl implements PictureService {
 
     private final PictureDao pictureDao;
 
+    private final PictureMapper pictureMapper;
+
     @Override
-    public List<Picture> getAll() {
-        return pictureDao.getAll();
+    public List<PictureDto> getAll() {
+        return pictureDao.getAll()
+                .stream()
+                .map(pictureMapper::toPictureDto)
+                .toList();
     }
 
     @Override
-    public Picture getById(Long id) {
-        return pictureDao.getById(id).orElseThrow(PictureNotFoundException::new);
+    public PictureDto getById(Long id) {
+        return pictureDao.getById(id)
+                .map(pictureMapper::toPictureDto)
+                .orElseThrow(PictureNotFoundException::new);
     }
 
     @Override
-    public Picture save(Picture picture) {
-        return pictureDao.save(picture);
+    public PictureDto save(PictureDto pictureDto) {
+        return pictureMapper.toPictureDto(pictureDao.save(pictureMapper.toPicture(pictureDto)));
     }
 
     @Override
-    public Picture update(Long id, Picture picture) {
+    public PictureDto update(Long id, PictureDto pictureDto) {
         if (!pictureDao.existsById(id)) {
             throw new PictureNotFoundException();
         }
-        picture.setId(id);
-        return pictureDao.update(picture);
+        pictureDto.setId(id);
+        return pictureMapper.toPictureDto(pictureDao.update(pictureMapper.toPicture(pictureDto)));
     }
 
     @Override
