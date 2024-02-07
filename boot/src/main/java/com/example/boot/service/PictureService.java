@@ -1,18 +1,18 @@
 package com.example.boot.service;
 
-import com.example.boot.domain.Picture;
+import com.example.boot.dto.PictureDto;
 
 import java.util.List;
 
 public interface PictureService {
 
-    List<Picture> getAll();
+    List<PictureDto> getAll();
 
-    Picture getById(Long id);
+    PictureDto getById(Long id);
 
-    Picture save(Picture picture);
+    PictureDto save(PictureDto pictureDto);
 
-    Picture update(Long id, Picture picture);
+    PictureDto update(Long id, PictureDto pictureDto);
 
     void delete(Long id);
 }

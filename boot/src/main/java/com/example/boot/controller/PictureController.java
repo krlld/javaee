@@ -1,7 +1,10 @@
 package com.example.boot.controller;
 
-import com.example.boot.domain.Picture;
+import com.example.boot.dto.PictureDto;
 import com.example.boot.service.PictureService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -25,40 +28,52 @@ import java.util.List;
 @RestController
 @RequestMapping("/pictures")
 @RequiredArgsConstructor
+@Tag(name = "Pictures", description = "Manage pictures")
 public class PictureController {
 
     private final PictureService pictureService;
 
     @GetMapping
-    public ResponseEntity<List<Picture>> getAll() {
+    @Operation(summary = "Get all", description = "Get all pictures")
+    public ResponseEntity<List<PictureDto>> getAll() {
         return ResponseEntity.ok(pictureService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Picture> getById(@PathVariable Long id) {
+    @Operation(summary = "Get by id", description = "Get pictures by the id")
+    public ResponseEntity<PictureDto> getById(
+            @PathVariable @Parameter(description = "Picture id", required = true) Long id) {
         return ResponseEntity.ok(pictureService.getById(id));
     }
 
     @GetMapping(path = "/{id}/pictureFile", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getAvatarById(@PathVariable Long id) {
+    @Operation(summary = "Get picture file", description = "Get picture file by picture id")
+    public ResponseEntity<byte[]> getAvatarById(
+            @PathVariable @Parameter(description = "Picture id", required = true) Long id) {
         return ResponseEntity.ok(pictureService.getById(id).getPictureFile());
     }
 
     @PostMapping
-    public ResponseEntity<Picture> save(
-            @RequestPart MultipartFile file,
-            @Valid Picture picture) throws IOException {
-        picture.setPictureFile(file.getBytes());
-        return ResponseEntity.ok(pictureService.save(picture));
+    @Operation(summary = "Save", description = "Save picture and return saved picture")
+    public ResponseEntity<PictureDto> save(
+            @RequestPart @Parameter(description = "Picture file", required = true) MultipartFile file,
+            @Valid @Parameter(description = "Picture data", required = true) PictureDto pictureDto) throws IOException {
+        pictureDto.setPictureFile(file.getBytes());
+        return ResponseEntity.ok(pictureService.save(pictureDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Picture> update(@PathVariable Long id, @Valid @RequestBody Picture picture) {
-        return ResponseEntity.ok(pictureService.update(id, picture));
+    @Operation(summary = "Update", description = "Update picture data by the id and return updated picture")
+    public ResponseEntity<PictureDto> update(
+            @PathVariable @Parameter(description = "Picture id", required = true) Long id,
+            @Valid @RequestBody @Parameter(description = "Picture data", required = true) PictureDto pictureDto) {
+        return ResponseEntity.ok(pictureService.update(id, pictureDto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    @Operation(summary = "Delete", description = "Delete picture by the id")
+    public ResponseEntity<Void> delete(
+            @PathVariable @Parameter(description = "Picture id", required = true) Long id) {
         pictureService.delete(id);
         return ResponseEntity.ok().build();
     }
