@@ -1,9 +1,9 @@
 package com.example.boot.service.impl;
 
-import com.example.boot.dao.PictureDao;
 import com.example.boot.dto.PictureDto;
 import com.example.boot.exception.PictureNotFoundException;
 import com.example.boot.mapper.PictureMapper;
+import com.example.boot.repository.PictureRepository;
 import com.example.boot.service.PictureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,13 +14,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PictureServiceImpl implements PictureService {
 
-    private final PictureDao pictureDao;
+    private final PictureRepository pictureRepository;
 
     private final PictureMapper pictureMapper;
 
     @Override
     public List<PictureDto> getAll() {
-        return pictureDao.getAll()
+        return pictureRepository.findAll()
                 .stream()
                 .map(pictureMapper::toPictureDto)
                 .toList();
@@ -28,30 +28,30 @@ public class PictureServiceImpl implements PictureService {
 
     @Override
     public PictureDto getById(Long id) {
-        return pictureDao.getById(id)
+        return pictureRepository.findById(id)
                 .map(pictureMapper::toPictureDto)
                 .orElseThrow(PictureNotFoundException::new);
     }
 
     @Override
     public PictureDto save(PictureDto pictureDto) {
-        return pictureMapper.toPictureDto(pictureDao.save(pictureMapper.toPicture(pictureDto)));
+        return pictureMapper.toPictureDto(pictureRepository.save(pictureMapper.toPicture(pictureDto)));
     }
 
     @Override
     public PictureDto update(Long id, PictureDto pictureDto) {
-        if (!pictureDao.existsById(id)) {
+        if (!pictureRepository.existsById(id)) {
             throw new PictureNotFoundException();
         }
         pictureDto.setId(id);
-        return pictureMapper.toPictureDto(pictureDao.update(pictureMapper.toPicture(pictureDto)));
+        return pictureMapper.toPictureDto(pictureRepository.save(pictureMapper.toPicture(pictureDto)));
     }
 
     @Override
     public void delete(Long id) {
-        if (!pictureDao.existsById(id)) {
+        if (!pictureRepository.existsById(id)) {
             throw new PictureNotFoundException();
         }
-        pictureDao.delete(id);
+        pictureRepository.deleteById(id);
     }
 }
